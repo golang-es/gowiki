@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"net/http"
 )
 
 // Page is the struct of the page on wiki
@@ -27,10 +28,15 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+// viewHandler allow users to view a wiki page.
+func viewHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/view/"):]
+	p, _ := loadPage(title)
+	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+}
+
 // main executes the program and serve the web server.
 func main() {
-	p1 := &Page{Title: "PruebaPagina", Body: []byte("Esta es una página de ejemplo")}
-	p1.save()
-	p2, _ := loadPage(p1.Title)
-	fmt.Println(string(p2.Body))
+	http.HandleFunc("/view/", viewHandler)
+	http.ListenAndServe(":8080", nil)
 }
