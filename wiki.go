@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 )
@@ -33,9 +34,9 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
 	if err != nil {
-		fmt.Fprintf(w, "<div class=\"error\">%s</div>", err)
+		handleCommonErrors(&err, &w)
 	}
-	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+	renderTemplate(&w, "view", p)
 }
 
 // editHandler loads the page (or, if it doesn't exist, create an empty Page struct), and displays an HTML form.
@@ -45,12 +46,20 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil { // Si no encuentra la página, creará una nueva
 		p = &Page{Title: title}
 	}
-	fmt.Fprintf(w, "<h1>Editando %s</h1>"+
-		"<form action=\"/save/%s\" method=\"POST\">"+
-		"<textarea name=\"body\">%s</textarea><br>"+
-		"<input type=\"submit\" value=\"Save\">"+
-		"</form>",
-		p.Title, p.Title, p.Body)
+	renderTemplate(&w, "edit", p)
+}
+
+func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
+	t, err := template.ParseFiles("views/" + tmpl + ".html")
+	if err != nil {
+		handleCommonErrors(&err, w)
+	}
+	t.Execute(*w, p)
+}
+
+// handleCommonErrors handle errors and write the error at web page
+func handleCommonErrors(err *error, w *http.ResponseWriter) {
+	fmt.Fprintf(*w, "<div class=\"error\">%s</div>", *err)
 }
 
 // main executes the program and serve the web server.

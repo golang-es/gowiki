@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        color: #906363;
+      }
+    </style>
+    <title>{{.Title}}</title>
+  </head>
+  <body>
+    <h1>{{.Title}}</h1>
+    <div>
+      <a href="/edit/{{.Title}}">Editar</a>
+    </div>
+      <div>
+        {{printf "%s" .Body}}
+      </div>
+  </body>
+</html>
