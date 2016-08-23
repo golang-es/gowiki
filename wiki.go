@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -56,7 +55,11 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/save/"):]
 	body := r.FormValue("body")
 	p := &Page{Title: title, Body: []byte(body)}
-	p.save()
+	err := p.save()
+	if err != nil {
+		handleCommonErrors(err, &w)
+		return
+	}
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
@@ -64,14 +67,18 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
 	t, err := template.ParseFiles("views/" + tmpl + ".html")
 	if err != nil {
-		handleCommonErrors(&err, w)
+		handleCommonErrors(err, w)
+		return
 	}
-	t.Execute(*w, p)
+	err = t.Execute(*w, p)
+	if err != nil {
+		handleCommonErrors(err, w)
+	}
 }
 
 // handleCommonErrors handle errors and write the error at web page
-func handleCommonErrors(err *error, w *http.ResponseWriter) {
-	fmt.Fprintf(*w, "<div class=\"error\">%s</div>", *err)
+func handleCommonErrors(err error, w *http.ResponseWriter) {
+	http.Error(*w, err.Error(), http.StatusInternalServerError)
 }
 
 // main executes the program and serve the web server.
