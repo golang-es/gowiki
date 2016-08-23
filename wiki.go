@@ -33,8 +33,10 @@ func loadPage(title string) (*Page, error) {
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
-	if err != nil {
-		handleCommonErrors(&err, &w)
+	if err != nil { // Si no encuentra la página, se irá a edición para crear una nueva
+		// The http.Redirect function adds an HTTP status code of http.StatusFound (302) and a Location header to the HTTP response.
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
+		return
 	}
 	renderTemplate(&w, "view", p)
 }
