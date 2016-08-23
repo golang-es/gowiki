@@ -31,12 +31,31 @@ func loadPage(title string) (*Page, error) {
 // viewHandler allow users to view a wiki page.
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
-	p, _ := loadPage(title)
+	p, err := loadPage(title)
+	if err != nil {
+		fmt.Fprintf(w, "<div class=\"error\">%s</div>", err)
+	}
 	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+}
+
+// editHandler loads the page (or, if it doesn't exist, create an empty Page struct), and displays an HTML form.
+func editHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/edit/"):]
+	p, err := loadPage(title)
+	if err != nil { // Si no encuentra la página, creará una nueva
+		p = &Page{Title: title}
+	}
+	fmt.Fprintf(w, "<h1>Editando %s</h1>"+
+		"<form action=\"/save/%s\" method=\"POST\">"+
+		"<textarea name=\"body\">%s</textarea><br>"+
+		"<input type=\"submit\" value=\"Save\">"+
+		"</form>",
+		p.Title, p.Title, p.Body)
 }
 
 // main executes the program and serve the web server.
 func main() {
 	http.HandleFunc("/view/", viewHandler)
+	http.HandleFunc("/edit/", editHandler)
 	http.ListenAndServe(":8080", nil)
 }
