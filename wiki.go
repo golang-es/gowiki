@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -36,11 +35,7 @@ func loadPage(title string) (*Page, error) {
 }
 
 // viewHandler allow users to view a wiki page.
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(&w, r)
-	if err != nil {
-		return
-	}
+func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil { // Si no encuentra la página, se irá a edición para crear una nueva
 		// The http.Redirect function adds an HTTP status code of http.StatusFound (302) and a Location header to the HTTP response.
@@ -51,11 +46,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // editHandler loads the page (or, if it doesn't exist, create an empty Page struct), and displays an HTML form.
-func editHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(&w, r)
-	if err != nil {
-		return
-	}
+func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil { // Si no encuentra la página, creará una nueva
 		p = &Page{Title: title}
@@ -64,14 +55,10 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // saveHandler saves the information from the edit form
-func saveHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(&w, r)
-	if err != nil {
-		return
-	}
+func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 	p := &Page{Title: title, Body: []byte(body)}
-	err = p.save()
+	err := p.save()
 	if err != nil {
 		handleCommonErrors(err, &w)
 		return
@@ -87,25 +74,27 @@ func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
 	}
 }
 
+// makeHandler returns a function that wrap the edit, view and save functions
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		m := validPath.FindStringSubmatch(r.URL.Path)
+		if m == nil {
+			http.NotFound(w, r)
+			return
+		}
+		fn(w, r, m[2])
+	}
+}
+
 // handleCommonErrors handle errors and write the error at web page
 func handleCommonErrors(err error, w *http.ResponseWriter) {
 	http.Error(*w, err.Error(), http.StatusInternalServerError)
 }
 
-// getTitle allow get a title with regexp validation
-func getTitle(w *http.ResponseWriter, r *http.Request) (string, error) {
-	m := validPath.FindStringSubmatch(r.URL.Path)
-	if m == nil {
-		http.NotFound(*w, r)
-		return "", errors.New("Título de página no valida.")
-	}
-	return m[2], nil // The title is the second subexpression.
-}
-
 // main executes the program and serve the web server.
 func main() {
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/edit/", editHandler)
-	http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
 	http.ListenAndServe(":8080", nil)
 }
