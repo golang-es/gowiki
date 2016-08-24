@@ -1,14 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"regexp"
 )
 
 var (
-	templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html"))
+	templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html", "./views/list.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 )
 
@@ -66,6 +68,31 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
+// listHandler show a list with all pages names.
+func listHandler(w http.ResponseWriter, r *http.Request) {
+	pageNames, err := listPages()
+	if err != nil {
+		handleCommonErrors(err, &w)
+	}
+	err = templates.ExecuteTemplate(w, "list.html", pageNames)
+	if err != nil {
+		handleCommonErrors(err, &w)
+	}
+}
+
+// listPages list all pages on wiki
+func listPages() ([]string, error) {
+	var names = make([]string, 0)
+	files, err := ioutil.ReadDir("./data")
+	if err != nil {
+		return nil, err
+	}
+	for _, file := range files {
+		names = append(names, file.Name()[:len(file.Name())-4])
+	}
+	return names, nil
+}
+
 // renderTemplate refactor to render templates
 func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
 	err := templates.ExecuteTemplate(*w, tmpl+".html", p)
@@ -93,8 +120,15 @@ func handleCommonErrors(err error, w *http.ResponseWriter) {
 
 // main executes the program and serve the web server.
 func main() {
+	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
+	fmt.Println("Para ver el contenido digite view/tuarticulo")
+	fmt.Println("hhhh")
+	dir, _ := os.Getwd()
+	fmt.Println(dir)
+	fmt.Println("Para salir presione Ctrl+C")
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/list/", listHandler)
 	http.ListenAndServe(":8080", nil)
 }

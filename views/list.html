@@ -12,18 +12,21 @@
         color: #906363;
       }
     </style>
-    <title>{{.Title}}</title>
+    <title>Listado de páginas</title>
   </head>
   <body>
-    <h1>Editando {{.Title}}</h1>
-    <a href="/list">Volver al listado</a>
-    <form action="/save/{{.Title}}" method="POST">
+    <h1>Listado de páginas</h1>
+
+    {{range $element := .}}
       <div>
-        <textarea name="body">{{printf "%s" .Body}}</textarea>
+        <a href="/view/{{$element}}">{{$element}}</a>
       </div>
+    {{else}}
       <div>
-        <input type="submit" value="Guardar">
+        <p>No se encontraron páginas.</p>
+        <p><a href="edit/nueva">Cree una nueva aquí</a></p>
       </div>
-    </form>
+    {{end}}
+
   </body>
 </html>
