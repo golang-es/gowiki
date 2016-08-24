@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html"))
+
 // Page is the struct of the page on wiki
 type Page struct {
 	Title string
@@ -14,13 +16,13 @@ type Page struct {
 
 // save saves the page on a text file
 func (p *Page) save() error {
-	filename := p.Title + ".txt"
+	filename := "./data/" + p.Title + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
 // loadPage loads the page from the text file
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
+	filename := "./data/" + title + ".txt"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -65,12 +67,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 
 // renderTemplate refactor to render templates
 func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
-	t, err := template.ParseFiles("views/" + tmpl + ".html")
-	if err != nil {
-		handleCommonErrors(err, w)
-		return
-	}
-	err = t.Execute(*w, p)
+	err := templates.ExecuteTemplate(*w, tmpl+".html", p)
 	if err != nil {
 		handleCommonErrors(err, w)
 	}
