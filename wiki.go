@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"regexp"
 )
 
@@ -122,9 +121,6 @@ func handleCommonErrors(err error, w *http.ResponseWriter) {
 func main() {
 	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
 	fmt.Println("Para ver el contenido digite view/tuarticulo")
-	fmt.Println("hhhh")
-	dir, _ := os.Getwd()
-	fmt.Println(dir)
 	fmt.Println("Para salir presione Ctrl+C")
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
