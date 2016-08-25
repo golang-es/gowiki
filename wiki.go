@@ -9,9 +9,13 @@ import (
 )
 
 var (
-	templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html", "./views/list.html"))
+	templates *template.Template
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 )
+
+func init() {
+	templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html", "./views/list.html"))
+}
 
 // Page is the struct of the page on wiki
 type Page struct {
