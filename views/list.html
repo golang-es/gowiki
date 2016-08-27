@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="utf-8">
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        color: #906363;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Listado de páginas</title>
-  </head>
-  <body>
-    <h1>Listado de páginas</h1>
+</head>
+<body class="page-list">
+    <div class="ed-container">
+        <div class="ed-item">
+            <h1>Listado de páginas</h1>
 
-    {{range $element := .}}
-      <div>
-        <a href="/view/{{$element}}">{{$element}}</a>
-      </div>
-    {{else}}
-      <div>
-        <p>No se encontraron páginas.</p>
-        <p><a href="edit/nueva">Cree una nueva aquí</a></p>
-      </div>
-    {{end}}
-
-  </body>
+            <div class="pages">
+                {{range $element := .}}
+                    <ol>
+                        <li class="pages__item">
+                            <a href="/view/{{$element}}">{{$element}}</a>
+                        </li>
+                    </ol>
+                {{else}}
+                  <div class="alert alert--danger">
+                    <p>No se encontraron páginas.</p>
+                  </div>
+                  <li class="text-center">
+                      <a class="btn btn--primary" href="/edit/nueva">Cree una nueva aquí</a>
+                  </li>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</body>
 </html>

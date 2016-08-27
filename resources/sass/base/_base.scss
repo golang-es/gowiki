@@ -1,0 +1,24 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  color: $color1;
+  display: flex;
+  font-family: "Oxygen";
+  font-size: 18px;
+}
+form{
+  margin: 0;
+}
+h1{
+  color: $color3;
+  font-family: "Oswald";
+  font-size: 2em;
+  text-align: center;
+}
+textarea{
+  height: 20em;
+  max-width: 100%;
+  padding: 5px;
+  width: 100%;
+}

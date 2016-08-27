@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="utf-8">
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        color: #906363;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
     <title>{{.Title}}</title>
-  </head>
-  <body>
-    <h1>{{.Title}}</h1>
-    <div>
-      <a href="/edit/{{.Title}}">Editar</a>
-      <a href="/list">Volver al listado</a>
+</head>
+<body class="page-view">
+    <div class="ed-container">
+        <div class="ed-item">
+            <h1>{{.Title}}</h1>
+            <div>
+                {{printf "%s" .Body}}
+            </div>
+
+            <div class="buttons">
+                <a href="/edit/{{.Title}}" class="btn btn--primary">Editar</a>
+                <a href="/list" class="btn btn--warning">Volver al listado</a>
+            </div>
+        </div>
     </div>
-      <div>
-        {{printf "%s" .Body}}
-      </div>
-  </body>
+</body>
 </html>

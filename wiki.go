@@ -123,6 +123,9 @@ func handleCommonErrors(err error, w *http.ResponseWriter) {
 
 // main executes the program and serve the web server.
 func main() {
+	fs := http.FileServer(http.Dir("./public"))
+	http.Handle("/css/", fs)
+
 	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
 	fmt.Println("Para ver el contenido digite view/tuarticulo")
 	fmt.Println("Para salir presione Ctrl+C")

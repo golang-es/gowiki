@@ -1,0 +1,17 @@
+.pages{
+  &__item{
+    border: 1px solid $color5;
+    a{
+      cursor: pointer;
+      padding: 5px 20px;
+      display: block;
+      width: 100%;
+      &.active,
+      &:active,
+      &:hover{
+        background-color: $color5;
+        color: #fff;
+      }
+    }
+  }
+}
