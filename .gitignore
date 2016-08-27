@@ -3,9 +3,6 @@
 # El ejecutable
 wiki
 
-# Los archivos txt que tienen el contenido
-*.txt
-
 ### Go ###
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o

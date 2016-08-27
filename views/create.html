@@ -8,11 +8,15 @@
 <body class="page-edit">
     <div class="ed-container">
         <div class="ed-item">
-            <h1>Página: {{.Title}}</h1>
+            <h1>Crear Página</h1>
 
-            <form action="/saveedit/{{.Title}}" method="POST">
+            <form action="/savenew/" method="POST">
                 <div>
-                    <textarea name="body">{{printf "%s" .Body}}</textarea>
+                    <label for="title">Título</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                <div>
+                    <textarea name="body"></textarea>
                 </div>
                 <button type="submit" class="btn btn--primary">Guardar</button>
             </form>
