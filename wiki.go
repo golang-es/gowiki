@@ -10,11 +10,11 @@ import (
 
 var (
 	templates *template.Template
-	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
+	validPath = regexp.MustCompile("^/(create|edit|savenew|saveedit|view)/([a-zA-Z0-9]+)$")
 )
 
 func init() {
-	templates = template.Must(template.ParseFiles("./views/edit.html", "./views/view.html", "./views/list.html"))
+	templates = template.Must(template.ParseFiles("./views/create.html", "./views/edit.html", "./views/view.html", "./views/list.html"))
 }
 
 // Page is the struct of the page on wiki
@@ -60,15 +60,28 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 // saveHandler saves the information from the edit form
-func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
+func saveEditHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 	p := &Page{Title: title, Body: []byte(body)}
+	saveHandler(p, w, r)
+}
+
+// saveNewHandler saves a new page
+func saveNewHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.FormValue("title")
+	body := r.FormValue("body")
+	p := &Page{Title: title, Body: []byte(body)}
+	saveHandler(p, w, r)
+}
+
+// saveHandler executes save action
+func saveHandler(p *Page, w http.ResponseWriter, r *http.Request) {
 	err := p.save()
 	if err != nil {
 		handleCommonErrors(err, &w)
 		return
 	}
-	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+	http.Redirect(w, r, "/view/"+p.Title, http.StatusFound)
 }
 
 // listHandler show a list with all pages names.
@@ -78,6 +91,14 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 		handleCommonErrors(err, &w)
 	}
 	err = templates.ExecuteTemplate(w, "list.html", pageNames)
+	if err != nil {
+		handleCommonErrors(err, &w)
+	}
+}
+
+// createHandler show a form to create a new page
+func createHandler(w http.ResponseWriter, r *http.Request) {
+	err := templates.ExecuteTemplate(w, "create.html", nil)
 	if err != nil {
 		handleCommonErrors(err, &w)
 	}
@@ -129,9 +150,11 @@ func main() {
 	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
 	fmt.Println("Para ver el contenido digite view/tuarticulo")
 	fmt.Println("Para salir presione Ctrl+C")
+	http.HandleFunc("/", listHandler)
+	http.HandleFunc("/create/", createHandler)
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
-	http.HandleFunc("/save/", makeHandler(saveHandler))
-	http.HandleFunc("/list/", listHandler)
+	http.HandleFunc("/saveedit/", makeHandler(saveEditHandler))
+	http.HandleFunc("/savenew/", saveNewHandler)
 	http.ListenAndServe(":8080", nil)
 }
