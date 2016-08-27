@@ -2214,15 +2214,17 @@ textarea {
   width: 100%; }
 
 .pages__item {
-  border: 1px solid #04756F; }
+  border-bottom: 1px solid #04756F; }
   .pages__item a {
     cursor: pointer;
-    padding: 5px 20px;
+    padding: 5px;
     display: block;
+    transition: all .4s;
     width: 100%; }
     .pages__item a.active, .pages__item a:active, .pages__item a:hover {
       background-color: #04756F;
-      color: #fff; }
+      color: #fff;
+      padding-left: 20px; }
 
 .alert {
   border-style: solid;

@@ -1,16 +1,18 @@
 .pages{
   &__item{
-    border: 1px solid $color5;
+    border-bottom: 1px solid $color5;
     a{
       cursor: pointer;
-      padding: 5px 20px;
+      padding: 5px;
       display: block;
+      transition: all .4s;
       width: 100%;
       &.active,
       &:active,
       &:hover{
         background-color: $color5;
         color: #fff;
+        padding-left: 20px;
       }
     }
   }

@@ -11,20 +11,20 @@
             <h1>Listado de páginas</h1>
 
             <div class="pages">
-                {{range $element := .}}
-                    <ol>
+                <ol>
+                    {{range $element := .}}
                         <li class="pages__item">
                             <a href="/view/{{$element}}">{{$element}}</a>
                         </li>
-                    </ol>
-                {{else}}
-                  <div class="alert alert--danger">
-                    <p>No se encontraron páginas.</p>
-                  </div>
-                  <li class="text-center">
-                      <a class="btn btn--primary" href="/edit/nueva">Cree una nueva aquí</a>
-                  </li>
-                {{end}}
+                    {{else}}
+                      <div class="alert alert--danger">
+                        <p>No se encontraron páginas.</p>
+                      </div>
+                      <div class="text-center">
+                          <a class="btn btn--primary" href="/edit/nueva">Cree una nueva aquí</a>
+                      </div>
+                    {{end}}
+                </ol>
             </div>
         </div>
     </div>
