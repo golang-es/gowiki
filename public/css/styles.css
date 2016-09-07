@@ -397,7 +397,9 @@ a {
   las clases .grupo y .caja pero se desaconseja (en la v2 desaparecerán)
 */
 .ed-container {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   max-width: 1200px;
   margin-left: auto;
@@ -1266,6 +1268,7 @@ class="no-padding" a la caja le da padding cero solo a ella
   background: #eee; }
 
 .ed-menu.default li, .ed-menu.nav-bar li {
+  -ms-flex: 1;
   flex: 1; }
 
 .ed-menu.default li:hover, .ed-menu.nav-bar li:hover {
@@ -1314,8 +1317,11 @@ class="no-padding" a la caja le da padding cero solo a ella
 
 @media screen and (min-width: 768px) {
   .tablet-horizontal {
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -ms-flex-align: center;
     align-items: center; }
   .tablet-horizontal.nav-bar > li {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -1334,8 +1340,11 @@ class="no-padding" a la caja le da padding cero solo a ella
 
 @media screen and (min-width: 1024px) {
   .web-horizontal {
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -ms-flex-align: center;
     align-items: center; }
   .web-horizontal.nav-bar > li {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -1359,430 +1368,650 @@ todos sus items.
 */
 @media screen and (min-width: 480px) {
   .movil-order-1 {
+    -ms-flex-order: 1;
     order: 1; }
   .movil-order-2 {
+    -ms-flex-order: 2;
     order: 2; }
   .movil-order-3 {
+    -ms-flex-order: 3;
     order: 3; }
   .movil-order-4 {
+    -ms-flex-order: 4;
     order: 4; }
   .movil-order-5 {
+    -ms-flex-order: 5;
     order: 5; }
   .movil-order-6 {
+    -ms-flex-order: 6;
     order: 6; }
   .movil-order-7 {
+    -ms-flex-order: 7;
     order: 7; }
   .movil-order-8 {
+    -ms-flex-order: 8;
     order: 8; }
   .movil-order-9 {
+    -ms-flex-order: 9;
     order: 9; }
   .movil-order-10 {
+    -ms-flex-order: 10;
     order: 10; } }
 
 @media screen and (min-width: 768px) {
   .tablet-order-1 {
+    -ms-flex-order: 1;
     order: 1; }
   .tablet-order-2 {
+    -ms-flex-order: 2;
     order: 2; }
   .tablet-order-3 {
+    -ms-flex-order: 3;
     order: 3; }
   .tablet-order-4 {
+    -ms-flex-order: 4;
     order: 4; }
   .tablet-order-5 {
+    -ms-flex-order: 5;
     order: 5; }
   .tablet-order-6 {
+    -ms-flex-order: 6;
     order: 6; }
   .tablet-order-7 {
+    -ms-flex-order: 7;
     order: 7; }
   .tablet-order-8 {
+    -ms-flex-order: 8;
     order: 8; }
   .tablet-order-9 {
+    -ms-flex-order: 9;
     order: 9; }
   .tablet-order-10 {
+    -ms-flex-order: 10;
     order: 10; } }
 
 @media screen and (min-width: 1024px) {
   .web-order-1 {
+    -ms-flex-order: 1;
     order: 1; }
   .web-order-2 {
+    -ms-flex-order: 2;
     order: 2; }
   .web-order-3 {
+    -ms-flex-order: 3;
     order: 3; }
   .web-order-4 {
+    -ms-flex-order: 4;
     order: 4; }
   .web-order-5 {
+    -ms-flex-order: 5;
     order: 5; }
   .web-order-6 {
+    -ms-flex-order: 6;
     order: 6; }
   .web-order-7 {
+    -ms-flex-order: 7;
     order: 7; }
   .web-order-8 {
+    -ms-flex-order: 8;
     order: 8; }
   .web-order-9 {
+    -ms-flex-order: 9;
     order: 9; }
   .web-order-10 {
+    -ms-flex-order: 10;
     order: 10; } }
 
 @media screen and (min-width: 1400px) {
   .hd-order-1 {
+    -ms-flex-order: 1;
     order: 1; }
   .hd-order-2 {
+    -ms-flex-order: 2;
     order: 2; }
   .hd-order-3 {
+    -ms-flex-order: 3;
     order: 3; }
   .hd-order-4 {
+    -ms-flex-order: 4;
     order: 4; }
   .hd-order-5 {
+    -ms-flex-order: 5;
     order: 5; }
   .hd-order-6 {
+    -ms-flex-order: 6;
     order: 6; }
   .hd-order-7 {
+    -ms-flex-order: 7;
     order: 7; }
   .hd-order-8 {
+    -ms-flex-order: 8;
     order: 8; }
   .hd-order-9 {
+    -ms-flex-order: 9;
     order: 9; }
   .hd-order-10 {
+    -ms-flex-order: 10;
     order: 10; } }
 
 .justify {
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-justify {
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-justify {
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-justify {
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-justify {
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .distribute,
 .distributed {
+  -ms-flex-pack: distribute;
   justify-content: space-around;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-distribute,
   .movil-distributed {
+    -ms-flex-pack: distribute;
     justify-content: space-around;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-distribute,
   .tablet-distributed {
+    -ms-flex-pack: distribute;
     justify-content: space-around;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-distribute,
   .web-distributed {
+    -ms-flex-pack: distribute;
     justify-content: space-around;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-distribute,
   .hd-distributed {
+    -ms-flex-pack: distribute;
     justify-content: space-around;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .main-center {
+  -ms-flex-pack: center;
   justify-content: center;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-main-center {
+    -ms-flex-pack: center;
     justify-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-main-center {
+    -ms-flex-pack: center;
     justify-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-main-center {
+    -ms-flex-pack: center;
     justify-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-main-center {
+    -ms-flex-pack: center;
     justify-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .main-start {
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-main-start {
+    -ms-flex-pack: start;
     justify-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-main-start {
+    -ms-flex-pack: start;
     justify-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-main-start {
+    -ms-flex-pack: start;
     justify-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-main-start {
+    -ms-flex-pack: start;
     justify-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .main-end {
+  -ms-flex-pack: end;
   justify-content: flex-end;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-main-end {
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-main-end {
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-main-end {
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-main-end {
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .cross-start {
+  -ms-flex-align: start;
   align-items: flex-start;
+  -ms-flex-line-pack: start;
   align-content: flex-start;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-cross-start {
+    -ms-flex-align: start;
     align-items: flex-start;
+    -ms-flex-line-pack: start;
     align-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-cross-start {
+    -ms-flex-align: start;
     align-items: flex-start;
+    -ms-flex-line-pack: start;
     align-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-cross-start {
+    -ms-flex-align: start;
     align-items: flex-start;
+    -ms-flex-line-pack: start;
     align-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-cross-start {
+    -ms-flex-align: start;
     align-items: flex-start;
+    -ms-flex-line-pack: start;
     align-content: flex-start;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .cross-center {
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-line-pack: center;
   align-content: center;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-cross-center {
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-line-pack: center;
     align-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-cross-center {
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-line-pack: center;
     align-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-cross-center {
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-line-pack: center;
     align-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-cross-center {
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-line-pack: center;
     align-content: center;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .cross-end {
+  -ms-flex-align: end;
+  -ms-grid-row-align: flex-end;
   align-items: flex-end;
+  -ms-flex-line-pack: end;
   align-content: flex-end; }
 
 @media all and (min-width: 480px) {
   .movil-cross-end {
+    -ms-flex-align: end;
     align-items: flex-end;
+    -ms-flex-line-pack: end;
     align-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-cross-end {
+    -ms-flex-align: end;
     align-items: flex-end;
+    -ms-flex-line-pack: end;
     align-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-cross-end {
+    -ms-flex-align: end;
     align-items: flex-end;
+    -ms-flex-line-pack: end;
     align-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-cross-end {
+    -ms-flex-align: end;
     align-items: flex-end;
+    -ms-flex-line-pack: end;
     align-content: flex-end;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .reverse {
+  -ms-flex-direction: row-reverse;
   flex-direction: row-reverse;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-reverse {
+    -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-reverse {
+    -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-reverse {
+    -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-reverse {
+    -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .column {
+  -ms-flex-direction: column;
   flex-direction: column;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 @media all and (min-width: 480px) {
   .movil-column {
+    -ms-flex-direction: column;
     flex-direction: column;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-column {
+    -ms-flex-direction: column;
     flex-direction: column;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-column {
+    -ms-flex-direction: column;
     flex-direction: column;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-column {
+    -ms-flex-direction: column;
     flex-direction: column;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .column-reverse {
+  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse; }
 
 @media all and (min-width: 480px) {
   .movil-column {
+    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 768px) {
   .tablet-column {
+    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1024px) {
   .web-column {
+    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 @media all and (min-width: 1400px) {
   .hd-column {
+    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap; } }
 
 .abcenter {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: center;
   justify-content: center;
+  -ms-flex-align: center;
   align-items: center;
   text-align: center; }
 
@@ -2194,6 +2423,7 @@ todos sus items.
 
 body {
   color: #2E0927;
+  display: -ms-flexbox;
   display: flex;
   font-family: "Oxygen";
   font-size: 18px; }
@@ -2206,6 +2436,15 @@ h1 {
   font-family: "Oswald";
   font-size: 2em;
   text-align: center; }
+
+input {
+  display: block;
+  margin: 0.5em 0;
+  padding: 5px;
+  width: 100%; }
+
+label {
+  display: blocK; }
 
 textarea {
   height: 20em;
@@ -2237,11 +2476,14 @@ textarea {
     color: #fff; }
 
 .btn {
+  -ms-flex-align: center;
   align-items: center;
   border: 0;
   color: #fff;
   cursor: pointer;
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -ms-flex-pack: center;
   justify-content: center;
   line-height: 2;
   margin: 0;

@@ -16,6 +16,15 @@ h1{
   font-size: 2em;
   text-align: center;
 }
+input{
+  display: block;
+  margin: 0.5em 0;
+  padding: 5px;
+  width: 100%;
+}
+label{
+  display: blocK;
+}
 textarea{
   height: 20em;
   max-width: 100%;
