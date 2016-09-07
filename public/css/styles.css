@@ -2437,20 +2437,19 @@ h1 {
   font-size: 2em;
   text-align: center; }
 
-input {
-  display: block;
-  margin: 0.5em 0;
+input,
+textarea {
+  border: 1px solid #2E0927;
   padding: 5px;
   width: 100%; }
 
-label {
-  display: blocK; }
+input {
+  display: block;
+  margin: 0.5em 0; }
 
 textarea {
   height: 20em;
-  max-width: 100%;
-  padding: 5px;
-  width: 100%; }
+  max-width: 100%; }
 
 .pages__item {
   border-bottom: 1px solid #04756F; }
