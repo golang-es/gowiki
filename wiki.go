@@ -6,11 +6,13 @@ import (
 	"net/http"
 	"regexp"
 	"text/template"
+
+	"github.com/extemporalgenome/slug"
 )
 
 var (
 	templates *template.Template
-	validPath = regexp.MustCompile("^/(create|edit|savenew|saveedit|view)/([a-zA-Z0-9]+)$")
+	validPath = regexp.MustCompile("^/(create|edit|savenew|saveedit|view)/([a-zA-Z0-9|-]+)$")
 )
 
 func init() {
@@ -25,7 +27,7 @@ type Page struct {
 
 // save saves the page on a text file
 func (p *Page) save() error {
-	filename := "./data/" + p.Title + ".txt"
+	filename := "./data/" + slug.Slug(p.Title) + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
@@ -112,6 +114,9 @@ func listPages() ([]string, error) {
 		return nil, err
 	}
 	for _, file := range files {
+		if file.Name()[0:1] == "." {
+			continue
+		}
 		names = append(names, file.Name()[:len(file.Name())-4])
 	}
 	return names, nil

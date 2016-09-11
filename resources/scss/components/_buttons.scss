@@ -8,7 +8,11 @@
   line-height: 2;
   margin: 0;
   padding: 0 20px;
-
+  text-decoration: none;
+  &:hover{
+    color: #fff;
+    text-decoration: none;
+  }
   &--primary{
     background-color: $color5;
     &:hover,
