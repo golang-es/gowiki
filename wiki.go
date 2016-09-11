@@ -83,7 +83,7 @@ func saveHandler(p *Page, w http.ResponseWriter, r *http.Request) {
 		handleCommonErrors(err, &w)
 		return
 	}
-	http.Redirect(w, r, "/view/"+p.Title, http.StatusFound)
+	http.Redirect(w, r, "/view/"+slug.Slug(p.Title), http.StatusFound)
 }
 
 // listHandler show a list with all pages names.
