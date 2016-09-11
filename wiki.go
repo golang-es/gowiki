@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"text/template"
 )
 
 var (
@@ -146,6 +146,7 @@ func handleCommonErrors(err error, w *http.ResponseWriter) {
 func main() {
 	fs := http.FileServer(http.Dir("./public"))
 	http.Handle("/css/", fs)
+	http.Handle("/js/", fs)
 
 	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
 	fmt.Println("Para ver el contenido digite view/tuarticulo")
