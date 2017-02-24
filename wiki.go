@@ -3,20 +3,35 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"regexp"
 	"text/template"
 
+	"encoding/json"
 	"github.com/extemporalgenome/slug"
+	"os"
+	"flag"
 )
 
 var (
-	templates *template.Template
-	validPath = regexp.MustCompile("^/(create|edit|savenew|saveedit|view)/([a-zA-Z0-9|-]+)$")
+	templates     *template.Template
+	validPath     = regexp.MustCompile("^/(create|edit|savenew|saveedit|view)/([a-zA-Z0-9|-]+)$")
+	configuration = Configuration{}
 )
 
 func init() {
-	templates = template.Must(template.ParseFiles("./views/create.html", "./views/edit.html", "./views/view.html", "./views/list.html"))
+	// templates = template.Must(template.ParseFiles("./views/create.html", "./views/edit.html", "./views/view.html", "./views/list.html"))
+	// loadConfiguration()
+	// templates = template.Must(template.ParseGlob(configuration.WorkDirectory + "/views/*.html"))
+}
+
+// Configuration is the struct of the address and the certificates files
+type Configuration struct {
+	Address       string
+	WorkDirectory string
+	CertFile      string
+	PrivateKey    string
 }
 
 // Page is the struct of the page on wiki
@@ -25,15 +40,32 @@ type Page struct {
 	Body  []byte
 }
 
+// loadConfiguration load the configuration.json file
+func loadConfiguration() {
+	file, err := os.Open(configuration.WorkDirectory + "/configuration.json")
+	if err != nil {
+		log.Fatal("Error al intentar abrir configuration.json:", err)
+		return
+	}
+	defer file.Close()
+
+	err = json.NewDecoder(file).Decode(&configuration)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+}
+
 // save saves the page on a text file
 func (p *Page) save() error {
-	filename := "./data/" + slug.Slug(p.Title) + ".txt"
+	filename := configuration.WorkDirectory + "/data/" + slug.Slug(p.Title) + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
 // loadPage loads the page from the text file
 func loadPage(title string) (*Page, error) {
-	filename := "./data/" + title + ".txt"
+	filename := configuration.WorkDirectory + "/data/" + title + ".txt"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -49,7 +81,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
-	renderTemplate(&w, "view", p)
+	renderTemplate(w, "view", p)
 }
 
 // editHandler loads the page (or, if it doesn't exist, create an empty Page struct), and displays an HTML form.
@@ -58,7 +90,7 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	if err != nil { // Si no encuentra la página, creará una nueva
 		p = &Page{Title: title}
 	}
-	renderTemplate(&w, "edit", p)
+	renderTemplate(w, "edit", p)
 }
 
 // saveHandler saves the information from the edit form
@@ -80,7 +112,7 @@ func saveNewHandler(w http.ResponseWriter, r *http.Request) {
 func saveHandler(p *Page, w http.ResponseWriter, r *http.Request) {
 	err := p.save()
 	if err != nil {
-		handleCommonErrors(err, &w)
+		handleCommonErrors(err, w)
 		return
 	}
 	http.Redirect(w, r, "/view/"+slug.Slug(p.Title), http.StatusFound)
@@ -90,11 +122,11 @@ func saveHandler(p *Page, w http.ResponseWriter, r *http.Request) {
 func listHandler(w http.ResponseWriter, r *http.Request) {
 	pageNames, err := listPages()
 	if err != nil {
-		handleCommonErrors(err, &w)
+		handleCommonErrors(err, w)
 	}
 	err = templates.ExecuteTemplate(w, "list.html", pageNames)
 	if err != nil {
-		handleCommonErrors(err, &w)
+		handleCommonErrors(err, w)
 	}
 }
 
@@ -102,14 +134,14 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 func createHandler(w http.ResponseWriter, r *http.Request) {
 	err := templates.ExecuteTemplate(w, "create.html", nil)
 	if err != nil {
-		handleCommonErrors(err, &w)
+		handleCommonErrors(err, w)
 	}
 }
 
 // listPages list all pages on wiki
 func listPages() ([]string, error) {
 	var names = make([]string, 0)
-	files, err := ioutil.ReadDir("./data")
+	files, err := ioutil.ReadDir(configuration.WorkDirectory + "/data")
 	if err != nil {
 		return nil, err
 	}
@@ -123,8 +155,8 @@ func listPages() ([]string, error) {
 }
 
 // renderTemplate refactor to render templates
-func renderTemplate(w *http.ResponseWriter, tmpl string, p *Page) {
-	err := templates.ExecuteTemplate(*w, tmpl+".html", p)
+func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+	err := templates.ExecuteTemplate(w, tmpl+".html", p)
 	if err != nil {
 		handleCommonErrors(err, w)
 	}
@@ -143,17 +175,32 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 // handleCommonErrors handle errors and write the error at web page
-func handleCommonErrors(err error, w *http.ResponseWriter) {
-	http.Error(*w, err.Error(), http.StatusInternalServerError)
+func handleCommonErrors(err error, w http.ResponseWriter) {
+	http.Error(w, err.Error(), http.StatusInternalServerError)
 }
 
 // main executes the program and serve the web server.
 func main() {
+	var wd string
+	flag.StringVar(&wd, "workdirectory", "", "Define la carpeta donde se encuentra la aplicación y sus carpetas")
+	flag.Parse()
+	if wd != "" {
+		configuration.WorkDirectory = wd
+	} else {
+		configuration.WorkDirectory = "."
+	}
+
+	loadConfiguration()
+	templates = template.Must(template.ParseGlob(configuration.WorkDirectory + "/views/*.html"))
+
+	fmt.Println("Certificados:")
+	fmt.Println(configuration.CertFile, configuration.PrivateKey)
+
 	fs := http.FileServer(http.Dir("./public"))
 	http.Handle("/css/", fs)
 	http.Handle("/js/", fs)
 
-	fmt.Println("Servidor ejecutandose en: http://localhost:8080")
+	fmt.Println("Servidor ejecutandose en: http://localhost" + configuration.Address)
 	fmt.Println("Para ver el contenido digite view/tuarticulo")
 	fmt.Println("Para salir presione Ctrl+C")
 	http.HandleFunc("/", listHandler)
@@ -162,5 +209,6 @@ func main() {
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/saveedit/", makeHandler(saveEditHandler))
 	http.HandleFunc("/savenew/", saveNewHandler)
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServeTLS(configuration.Address, configuration.CertFile, configuration.PrivateKey, nil)
+	log.Fatal(err)
 }

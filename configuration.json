@@ -1,0 +1,8 @@
+{
+  "address": ":443",
+  "certfileProduction": "/etc/letsencrypt/live/golang-es.com/fullchain.pem",
+  "privatekeyProduction": "/etc/letsencrypt/live/golang-es.com/privkey.pem",
+  "workdirectory": "/home/alexys/golang/src/github.com/golang-es/gowiki",
+  "certfile": "./certificates/gowiki.cert.crt",
+  "privatekey": "./certificates/gowiki.cert.key"
+}
